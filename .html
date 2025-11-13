@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GogoAi - Ultimate Smart Assistant</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%);
+    color: #e5e7eb;
+  }
+  .message-entry {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.3s forwards;
+  }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body class="flex flex-col h-screen">
+
+<div id="chat-container" class="flex flex-col flex-1 max-w-xl mx-auto w-full bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden mt-6 mb-6 shadow-xl">
+  <header class="p-5 bg-indigo-700 text-white shadow-lg flex justify-between items-center border-b-2 border-indigo-500">
+    <h1 class="text-2xl font-extrabold flex items-center">🧠 GogoAi (Smart Mode)</h1>
+    <span class="text-sm opacity-80 bg-indigo-500 px-3 py-1 rounded-full font-medium shadow-inner">Owned by Gogo</span>
+  </header>
+
+  <div id="messages" class="flex-1 p-4 overflow-y-auto space-y-4">
+    <div class="flex justify-start message-entry">
+      <div class="bg-indigo-600 text-white p-4 rounded-xl rounded-tl-none max-w-xs shadow-lg">
+        <p class="font-light">🔥 Greetings! I am GogoAi — your ultra-smart assistant. Ask me anything! 🚀</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading-indicator" class="p-3 text-center hidden">
+    <div class="flex items-center justify-center space-x-2">
+      <div class="w-3 h-3 bg-indigo-400 rounded-full animate-pulse"></div>
+      <div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style="animation-delay:0.2s"></div>
+      <div class="w-3 h-3 bg-indigo-600 rounded-full animate-pulse" style="animation-delay:0.4s"></div>
+      <span class="text-indigo-400 font-semibold ml-3">Analyzing...</span>
+    </div>
+  </div>
+
+  <div class="p-4 border-t border-gray-700 bg-gray-900">
+    <div class="flex space-x-3">
+      <input type="text" id="user-input" placeholder="Ask GogoAi anything..."
+             class="flex-1 p-3 bg-gray-700 text-white border-2 border-gray-600 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400"
+             onkeydown="if(event.key==='Enter') sendMessage()">
+      <button id="send-button" onclick="sendMessage()"
+              class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500 transition">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==== Твоето API ключче ====
+  const apiKey = "AIzaSyDTHieJ8RXTEVR0f-34gm7qSA9eMPTURsI";
+
+  // Проверен URL (може да е нужно да смениш към актуалния модел)
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const messagesContainer = document.getElementById("messages");
+  const userInput = document.getElementById("user-input");
+  const sendButton = document.getElementById("send-button");
+  const loadingIndicator = document.getElementById("loading-indicator");
+
+  function appendMessage(sender, text) {
+    const isUser = sender === "user";
+    const div = document.createElement("div");
+    div.className = `flex ${isUser?"justify-end":"justify-start"} message-entry`;
+    const bubble = document.createElement("div");
+    bubble.className = `p-4 rounded-xl max-w-[80%] ${isUser?"bg-gray-700 text-gray-200 rounded-br-none":"bg-indigo-600 text-white rounded-tl-none"}`;
+    bubble.innerHTML = text.replace(/\n/g,"<br>");
+    div.appendChild(bubble);
+    messagesContainer.appendChild(div);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const prompt = userInput.value.trim();
+    if(!prompt) return;
+
+    appendMessage("user", prompt);
+    userInput.value = "";
+    sendButton.disabled = true;
+    loadingIndicator.classList.remove("hidden");
+
+    try {
+      const payload = {
+        "prompt": prompt,
+        "temperature": 0.7,
+        "candidate_count": 1
+      };
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+
+      // Показва първия текст от отговора
+      const text = data.candidates?.[0]?.content?.[0]?.text || "⚠️ No response from model.";
+      appendMessage("ai", text);
+
+    } catch(err) {
+      appendMessage("ai", `🚨 Error: ${err.message}<br>Make sure you opened this via a browser with internet.`);
+    } finally {
+      loadingIndicator.classList.add("hidden");
+      sendButton.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
