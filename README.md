@@ -1,2 +1,966 @@
-# 123
-123
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Градинарски Тефтер</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --soil-brown: #3d2817;
+            --leaf-green: #4a7c59;
+            --dark-green: #2d5016;
+            --light-green: #9cb896;
+            --earth: #8b6f47;
+            --cream: #f5f1e8;
+            --wood: #6b4423;
+            --flower: #d4a574;
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background: linear-gradient(135deg, #e8dcc4 0%, #c9b896 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Декоративни листа във фона */
+        body::before {
+            content: '🌿';
+            position: fixed;
+            font-size: 120px;
+            opacity: 0.1;
+            top: -20px;
+            left: -30px;
+            transform: rotate(-25deg);
+            z-index: 0;
+            animation: sway 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '🍃';
+            position: fixed;
+            font-size: 90px;
+            opacity: 0.1;
+            bottom: -10px;
+            right: -20px;
+            transform: rotate(45deg);
+            z-index: 0;
+            animation: sway 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-25deg) translateY(0); }
+            50% { transform: rotate(-30deg) translateY(-10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 4rem;
+            color: var(--dark-green);
+            text-shadow: 3px 3px 0px rgba(139, 111, 71, 0.3);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--soil-brown);
+            font-style: italic;
+        }
+
+        .notebook {
+            background: linear-gradient(to bottom, #f9f6f0 0%, #f5f1e8 100%);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 
+                0 10px 40px rgba(61, 40, 23, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            border: 3px solid var(--earth);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .month-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            object-fit: cover;
+            border: 4px solid var(--earth);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Имитация на спирала на тефтера */
+        .notebook::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 30px;
+            bottom: 30px;
+            width: 30px;
+            background: 
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent,
+                    transparent 15px,
+                    var(--wood) 15px,
+                    var(--wood) 25px
+                );
+            border-radius: 15px 0 0 15px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .month-select {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .month-select select {
+            width: 100%;
+            padding: 12px 20px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            background: white;
+            border: 3px solid var(--leaf-green);
+            border-radius: 10px;
+            color: var(--dark-green);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .month-select select:hover {
+            border-color: var(--dark-green);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--light-green), var(--leaf-green));
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 2px solid var(--earth);
+            border-radius: 10px;
+            padding: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .calendar-day:hover {
+            transform: scale(1.05) rotate(1deg);
+            border-color: var(--leaf-green);
+            box-shadow: 0 5px 15px rgba(74, 124, 89, 0.3);
+            z-index: 10;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+
+        .calendar-day.empty:hover {
+            transform: none;
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(135deg, var(--light-green), var(--leaf-green));
+            border-color: var(--dark-green);
+            box-shadow: 0 5px 15px rgba(45, 80, 22, 0.4);
+        }
+
+        .calendar-day.has-note::after {
+            content: '🌱';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.8rem;
+        }
+
+        .day-number {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            margin-bottom: 5px;
+        }
+
+        .day-preview {
+            font-size: 0.7rem;
+            color: var(--soil-brown);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .note-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 3px solid var(--leaf-green);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .note-section h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--dark-green);
+            margin-bottom: 15px;
+            border-bottom: 2px dashed var(--light-green);
+            padding-bottom: 10px;
+        }
+
+        .note-section textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            border: 2px solid var(--light-green);
+            border-radius: 8px;
+            resize: vertical;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                transparent calc(100% - 1px), 
+                var(--light-green) calc(100% - 1px));
+            background-size: 100% 2rem;
+            line-height: 2rem;
+            color: var(--soil-brown);
+            transition: all 0.3s ease;
+        }
+
+        .note-section textarea:focus {
+            outline: none;
+            border-color: var(--leaf-green);
+            box-shadow: 0 0 15px rgba(74, 124, 89, 0.3);
+        }
+
+        .note-section textarea::placeholder {
+            color: #a0a0a0;
+            font-style: italic;
+        }
+
+        .save-btn {
+            margin-top: 15px;
+            padding: 12px 30px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--leaf-green), var(--dark-green));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
+        }
+
+        .moon-panel {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 3px solid var(--flower);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out 0.6s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .moon-panel::before {
+            content: '✨';
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.1;
+            top: -10px;
+            right: -10px;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.2); }
+        }
+
+        .moon-panel h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .moon-display {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .moon-icon {
+            font-size: 5rem;
+            text-align: center;
+            animation: moonGlow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes moonGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8)); }
+        }
+
+        .moon-info {
+            flex: 1;
+            min-width: 250px;
+            color: white;
+        }
+
+        .moon-phase-name {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .moon-illumination {
+            font-size: 1.1rem;
+            color: #d4a574;
+            margin-bottom: 15px;
+        }
+
+        .moon-advice {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--flower);
+            margin-top: 20px;
+        }
+
+        .moon-advice h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .moon-advice ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .moon-advice li {
+            color: #e0e0e0;
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .moon-advice li::before {
+            content: '🌙';
+            position: absolute;
+            left: 0;
+        }
+
+        .moon-advice .warning {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .moon-advice .warning::before {
+            content: '⚠️';
+        }
+
+        .moon-advice .good {
+            color: #51cf66;
+        }
+
+        .moon-advice .good::before {
+            content: '✅';
+        }
+
+        .calendar-day .moon-mini {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--soil-brown);
+            opacity: 0.8;
+        }
+
+        /* Анимация при запазване */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .notebook {
+                padding: 20px;
+            }
+
+            .calendar-grid {
+                gap: 5px;
+            }
+
+            .calendar-day {
+                padding: 5px;
+            }
+
+            .day-number {
+                font-size: 1rem;
+            }
+
+            .day-preview {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Градинарски Тефтер 🌿</h1>
+            <p>Записвай какво си засял, поливал и прибрал от градината</p>
+        </div>
+
+        <div class="notebook">
+            <img id="monthImage" class="month-image" src="" alt="Месечна снимка">
+            
+            <div class="moon-panel" id="moonPanel">
+                <h2>🌙 Лунен Календар</h2>
+                <div class="moon-display">
+                    <div class="moon-icon" id="moonIcon">🌕</div>
+                    <div class="moon-info">
+                        <div class="moon-phase-name" id="moonPhaseName">Пълнолуние</div>
+                        <div class="moon-illumination" id="moonIllumination">Осветеност: 100%</div>
+                    </div>
+                </div>
+                <div class="moon-advice" id="moonAdvice">
+                    <h3>Градинарски съвети за тази фаза:</h3>
+                    <ul id="moonAdviceList">
+                        <li>Зареждане на съвети...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="month-select">
+                    <select id="monthSelect">
+                        <option value="0">Януари</option>
+                        <option value="1">Февруари</option>
+                        <option value="2">Март</option>
+                        <option value="3">Април</option>
+                        <option value="4">Май</option>
+                        <option value="5">Юни</option>
+                        <option value="6">Юли</option>
+                        <option value="7">Август</option>
+                        <option value="8">Септември</option>
+                        <option value="9">Октомври</option>
+                        <option value="10">Ноември</option>
+                        <option value="11">Декември</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calendar-grid" id="calendar">
+                <!-- Календарът ще се генерира с JavaScript -->
+            </div>
+
+            <div class="note-section">
+                <h2 id="noteTitle">Избери ден от календара</h2>
+                <textarea 
+                    id="noteText" 
+                    placeholder="Напиши какво си направил в градината...
+🌱 Засял съм...
+💧 Полял съм...
+🌾 Прибрал съм..."></textarea>
+                <button class="save-btn" id="saveBtn" onclick="saveNote()">💾 Запази</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Направено с ❤️ за градинарите | Градината е свързана с луната 🌙 | Всички данни се запазват в твоя браузър 🌻
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date();
+        let selectedDate = null;
+        let notes = {};
+
+        // Снимки за всеки месец (използваме Unsplash с градинарска тематика)
+        const monthImages = {
+            0: 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=800&h=250&fit=crop', // Януари - зимна градина
+            1: 'https://images.unsplash.com/photo-1612538498456-e861df91d4d0?w=800&h=250&fit=crop', // Февруари - ранна пролет
+            2: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&h=250&fit=crop', // Март - цъфтящи цветя
+            3: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=250&fit=crop', // Април - пролетна градина
+            4: 'https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?w=800&h=250&fit=crop', // Май - зелена градина
+            5: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=250&fit=crop', // Юни - лятна градина
+            6: 'https://images.unsplash.com/photo-1592419044706-39796d40f98c?w=800&h=250&fit=crop', // Юли - домати
+            7: 'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?w=800&h=250&fit=crop', // Август - зеленчуци
+            8: 'https://images.unsplash.com/photo-1535083783855-76ae62b2914e?w=800&h=250&fit=crop', // Септември - есенна реколта
+            9: 'https://images.unsplash.com/photo-1509348083804-де47bb4c0e97?w=800&h=250&fit=crop', // Октомври - есенни листа
+            10: 'https://images.unsplash.com/photo-1511497584788-876760111969?w=800&h=250&fit=crop', // Ноември - есенна градина
+            11: 'https://images.unsplash.com/photo-1482786555658-2e4c6b8e74bb?w=800&h=250&fit=crop'  // Декември - зимна градина
+        };
+
+        // Обновява месечната снимка
+        function updateMonthImage(month) {
+            const img = document.getElementById('monthImage');
+            img.src = monthImages[month];
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.style.animation = 'fadeIn 0.8s ease-out';
+            }, 10);
+        }
+
+        // Лунни фази и съвети
+        const moonPhases = {
+            newMoon: {
+                name: 'Новолуние',
+                icon: '🌑',
+                advice: [
+                    { type: 'warning', text: 'НЕ сейте и НЕ садете нищо - растенията растат слабо' },
+                    { type: 'good', text: 'Добър момент за почивка на градината' },
+                    { type: 'good', text: 'Подходящо за планиране и подготовка' },
+                    { type: 'normal', text: 'Може да се оформят храсти и дървета' }
+                ]
+            },
+            waxingCrescent: {
+                name: 'Младa растяща луна',
+                icon: '🌒',
+                advice: [
+                    { type: 'good', text: 'Отлично време за сеитба на листни зеленчуци' },
+                    { type: 'good', text: 'Засейте салата, спанак, зеле, магданоз' },
+                    { type: 'good', text: 'Растенията имат добър ръст нагоре' },
+                    { type: 'normal', text: 'Поливайте умерено' }
+                ]
+            },
+            firstQuarter: {
+                name: 'Първа четвърт',
+                icon: '🌓',
+                advice: [
+                    { type: 'good', text: 'Най-добро време за сеитба на плодни растения' },
+                    { type: 'good', text: 'Засейте домати, краставици, тиквички, пипер' },
+                    { type: 'good', text: 'Присадете овощни дървета' },
+                    { type: 'normal', text: 'Торете растенията за по-добър добив' }
+                ]
+            },
+            waxingGibbous: {
+                name: 'Нарастваща луна',
+                icon: '🌔',
+                advice: [
+                    { type: 'good', text: 'Добър период за засаждане на разсад' },
+                    { type: 'good', text: 'Растенията се укрепват' },
+                    { type: 'normal', text: 'Продължете с активна грижа' },
+                    { type: 'normal', text: 'Време за последни пролетни засаждания' }
+                ]
+            },
+            fullMoon: {
+                name: 'Пълнолуние',
+                icon: '🌕',
+                advice: [
+                    { type: 'warning', text: 'НЕ сейте - растенията растат слабо' },
+                    { type: 'good', text: 'Отлично време за берене на плодове и зеленчуци' },
+                    { type: 'good', text: 'Прибраните плодове са най-сочни и вкусни' },
+                    { type: 'good', text: 'Берете билки - са най-силни' },
+                    { type: 'normal', text: 'Поливайте по-обилно' }
+                ]
+            },
+            waningGibbous: {
+                name: 'Намаляваща луна',
+                icon: '🌖',
+                advice: [
+                    { type: 'good', text: 'Време за сеитба на коренови растения' },
+                    { type: 'good', text: 'Засейте моркови, цвекло, картофи, лук' },
+                    { type: 'good', text: 'Растенията развиват силна коренова система' },
+                    { type: 'normal', text: 'Подходящо за рязане на трева' }
+                ]
+            },
+            lastQuarter: {
+                name: 'Последна четвърт',
+                icon: '🌗',
+                advice: [
+                    { type: 'good', text: 'Продължете с коренови култури' },
+                    { type: 'good', text: 'Окопавайте и разрохквайте почвата' },
+                    { type: 'normal', text: 'Борете се с плевелите' },
+                    { type: 'warning', text: 'Избягвайте засаждане на надземни култури' }
+                ]
+            },
+            waningCrescent: {
+                name: 'Старa намаляваща луна',
+                icon: '🌘',
+                advice: [
+                    { type: 'warning', text: 'Не е подходящо за сеитба' },
+                    { type: 'good', text: 'Почистете градината от плевели' },
+                    { type: 'good', text: 'Обрежете болни и стари клони' },
+                    { type: 'normal', text: 'Подгответе се за новолуние' }
+                ]
+            }
+        };
+
+        // Подобрен алгоритъм за изчисляване на фазата на луната
+        function getMoonPhase(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+
+            // Нов по-точен алгоритъм
+            const totalDays = Math.floor((Date.UTC(year, month, day) - Date.UTC(2000, 0, 6)) / (1000 * 60 * 60 * 24));
+            const moonCycle = 29.53058867; // Средна продължителност на лунния цикъл
+            const phase = (totalDays % moonCycle) / moonCycle;
+            
+            let phaseName, icon, illumination;
+            
+            // По-точно определяне на фазата
+            if (phase < 0.0625 || phase >= 0.9375) {
+                phaseName = 'newMoon';
+                illumination = Math.round(phase < 0.0625 ? phase * 800 : (1 - phase) * 800);
+            } else if (phase < 0.1875) {
+                phaseName = 'waxingCrescent';
+                illumination = Math.round(phase * 400);
+            } else if (phase < 0.3125) {
+                phaseName = 'firstQuarter';
+                illumination = Math.round(30 + phase * 100);
+            } else if (phase < 0.4375) {
+                phaseName = 'waxingGibbous';
+                illumination = Math.round(60 + phase * 100);
+            } else if (phase < 0.5625) {
+                phaseName = 'fullMoon';
+                illumination = Math.round(95 + (0.5 - Math.abs(phase - 0.5)) * 40);
+            } else if (phase < 0.6875) {
+                phaseName = 'waningGibbous';
+                illumination = Math.round(100 - (phase - 0.5) * 100);
+            } else if (phase < 0.8125) {
+                phaseName = 'lastQuarter';
+                illumination = Math.round(70 - phase * 100);
+            } else {
+                phaseName = 'waningCrescent';
+                illumination = Math.round(40 - phase * 100);
+            }
+
+            // Ограничаваме осветеността между 0 и 100
+            illumination = Math.max(0, Math.min(100, illumination));
+
+            const phaseData = moonPhases[phaseName];
+            return { phase: phaseName, illumination, ...phaseData };
+        }
+
+        // Обновява лунния панел
+        function updateMoonPanel(date) {
+            const moonData = getMoonPhase(date);
+            
+            document.getElementById('moonIcon').textContent = moonData.icon;
+            document.getElementById('moonPhaseName').textContent = moonData.name;
+            document.getElementById('moonIllumination').textContent = `Осветеност: ${moonData.illumination}%`;
+            
+            const adviceList = document.getElementById('moonAdviceList');
+            adviceList.innerHTML = '';
+            
+            moonData.advice.forEach(advice => {
+                const li = document.createElement('li');
+                li.className = advice.type;
+                li.textContent = advice.text;
+                adviceList.appendChild(li);
+            });
+        }
+
+        // Връща иконата на луната за даден ден
+        function getMoonIconForDay(date) {
+            const moonData = getMoonPhase(date);
+            return moonData.icon;
+        }
+
+        // Зареди записките от localStorage при стартиране
+        function loadNotes() {
+            const saved = localStorage.getItem('gardenNotes');
+            if (saved) {
+                notes = JSON.parse(saved);
+            }
+        }
+
+        // Запази записките в localStorage
+        function saveNotes() {
+            localStorage.setItem('gardenNotes', JSON.stringify(notes));
+        }
+
+        // Генерира календар за текущия месец
+        function generateCalendar() {
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            // Добави заглавия на дните
+            const dayNames = ['Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб', 'Нед'];
+            dayNames.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+
+            // Първи ден на месеца
+            const firstDay = new Date(year, month, 1);
+            let firstDayOfWeek = firstDay.getDay();
+            // Конвертираме от неделя=0 към понеделник=0
+            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+
+            // Последен ден на месеца
+            const lastDay = new Date(year, month + 1, 0).getDate();
+
+            // Добави празни клетки преди първия ден
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendar.appendChild(emptyDay);
+            }
+
+            // Добави дните на месеца
+            for (let day = 1; day <= lastDay; day++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                
+                const dateKey = `${year}-${month}-${day}`;
+                const dayDate = new Date(year, month, day);
+                
+                // Провери дали има записка за този ден
+                if (notes[dateKey]) {
+                    dayDiv.classList.add('has-note');
+                }
+
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayDiv.appendChild(dayNumber);
+
+                // Добави лунна икона
+                const moonMini = document.createElement('div');
+                moonMini.className = 'moon-mini';
+                moonMini.textContent = getMoonIconForDay(dayDate);
+                dayDiv.appendChild(moonMini);
+
+                if (notes[dateKey]) {
+                    const preview = document.createElement('div');
+                    preview.className = 'day-preview';
+                    preview.textContent = notes[dateKey].substring(0, 15) + '...';
+                    dayDiv.appendChild(preview);
+                }
+
+                dayDiv.addEventListener('click', () => selectDate(year, month, day));
+                calendar.appendChild(dayDiv);
+            }
+        }
+
+        // Избери дата
+        function selectDate(year, month, day) {
+            selectedDate = { year, month, day };
+            const dateKey = `${year}-${month}-${day}`;
+            const selectedDateObj = new Date(year, month, day);
+
+            // Премахни предишното селектиране
+            document.querySelectorAll('.calendar-day').forEach(d => {
+                d.classList.remove('selected');
+            });
+
+            // Маркирай избрания ден
+            event.currentTarget.classList.add('selected');
+
+            // Обнови заглавието и текста
+            const monthNames = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 
+                              'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'];
+            document.getElementById('noteTitle').textContent = 
+                `${day} ${monthNames[month]} ${year}`;
+
+            // Обнови лунния панел за избрания ден
+            updateMoonPanel(selectedDateObj);
+
+            // Зареди записката ако има
+            const noteText = document.getElementById('noteText');
+            noteText.value = notes[dateKey] || '';
+            
+            // Анимация
+            noteText.style.animation = 'none';
+            setTimeout(() => {
+                noteText.style.animation = 'fadeIn 0.5s ease-out';
+            }, 10);
+        }
+
+        // Запази записка
+        function saveNote() {
+            if (!selectedDate) {
+                alert('Моля, избери ден от календара!');
+                return;
+            }
+
+            const dateKey = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
+            const noteText = document.getElementById('noteText').value;
+
+            if (noteText.trim()) {
+                notes[dateKey] = noteText;
+            } else {
+                delete notes[dateKey];
+            }
+
+            saveNotes();
+            generateCalendar();
+
+            // Анимация на бутона
+            const btn = document.getElementById('saveBtn');
+            btn.classList.add('pulse');
+            btn.textContent = '✅ Запазено!';
+            
+            setTimeout(() => {
+                btn.classList.remove('pulse');
+                btn.textContent = '💾 Запази';
+            }, 1500);
+
+            // Пре-селектирай деня за да се обнови визуализацията
+            const { year, month, day } = selectedDate;
+            setTimeout(() => {
+                const days = document.querySelectorAll('.calendar-day:not(.empty)');
+                days[day - 1 + (new Date(year, month, 1).getDay() === 0 ? 6 : new Date(year, month, 1).getDay() - 1)]?.click();
+            }, 100);
+        }
+
+        // Смени месеца
+        document.getElementById('monthSelect').addEventListener('change', function() {
+            currentDate.setMonth(parseInt(this.value));
+            updateMonthImage(parseInt(this.value));
+            generateCalendar();
+            selectedDate = null;
+            document.getElementById('noteTitle').textContent = 'Избери ден от календара';
+            document.getElementById('noteText').value = '';
+            updateMoonPanel(currentDate);
+        });
+
+        // Инициализация
+        loadNotes();
+        document.getElementById('monthSelect').value = currentDate.getMonth();
+        updateMonthImage(currentDate.getMonth());
+        updateMoonPanel(currentDate);
+        generateCalendar();
+    </script>
+</body>
+</html>
